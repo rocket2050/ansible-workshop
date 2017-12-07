@@ -15,7 +15,7 @@ build-all:
 	make build
 	make build-mysql
 	make build-tomcat
-        make build-jenkins
+	make build-jenkins
 
 run-nginx-1:
 	docker rm -f nginx1 || true

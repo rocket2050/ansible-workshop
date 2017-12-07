@@ -109,3 +109,6 @@ scriptler:2.9
 dynamicparameter:0.2.0
 checkstyle:3.49
 cobertura:1.12
+nexus-artifact-uploader:2.10
+nexus-jenkins-plugin:1.4.20170929-233916.04479e6
+

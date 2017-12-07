@@ -37,9 +37,9 @@ run-webapp-b:
 	docker rm -f webappb  || true
 	docker run -h webappb --name webappb -itd workshop/ansible:tomcat
 	
-run-jenkins:
-	docker rm -f jenkins  || true
-	docker run -h jenkins --name jenkins -p80:80 -itd workshop/ansible:jenkins	
+run-cicd:
+	docker rm -f cicd  || true
+	docker run -h cicd --name cicd -p80:80 -itd workshop/ansible:jenkins	
 
 run-all:
 	make run-nginx-1

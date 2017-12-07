@@ -9,7 +9,7 @@ build-tomcat:
 	docker build -t workshop/ansible:tomcat -f tomcat/Dockerfile.tomcat .
 
 build-jenkins:
-	docker build -t workshop/ansible:jenkins -f Jenkins/Dockerfile .
+	docker build -t workshop/ansible:jenkins -f jenkins/Dockerfile .
 	
 build-all:
 	make build

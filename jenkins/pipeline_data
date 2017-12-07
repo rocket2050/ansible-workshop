@@ -1,0 +1,145 @@
+node {
+stage ('Disable_Autoscaling') {
+    build job: 'Disable_Autoscaling'
+}
+
+stage ('Pullout_AzB_Instances') {
+    build job: 'Pullout_AzB_Instances'
+}
+
+parameters {
+        string(defaultValue: b, description: '', name: 'AZ')
+    }
+
+stage ("DEPLOY_ACTIONS") {
+    
+    script {
+        env.RELEASE_SCOPE = input message: 'do you want to deploy to Deploy_Az?', ok: 'Release',
+        parameters: [string(defaultValue: 'b', description: '', name: 'AZ')]
+    }  
+    echo "${env.RELEASE_SCOPE}"
+}
+    
+
+stage ('Deployment_FE_AZ') {
+    build job: 'prod_FE_Deploy', parameters: [[$class: 'StringParameterValue', name: 'AZ', value: "${env.RELEASE_SCOPE}"]]
+}
+
+
+parameters {
+        string(defaultValue: b, description: '', name: 'AZ')
+    }
+
+stage ("DEPLOY_ACTIONS_BE_API") {
+    
+    script {
+        env.RELEASE_SCOPE = input message: 'do you want to deploy to Deploy_Az?', ok: 'Release',
+        parameters: [string(defaultValue: 'b', description: '', name: 'AZ')]
+    }  
+    echo "${env.RELEASE_SCOPE}"
+}
+    
+
+stage ('Deployment_BE_API_AZ') {
+    build job: 'prod_BE_API_Deploy', parameters: [[$class: 'StringParameterValue', name: 'AZ', value: "${env.RELEASE_SCOPE}"]]
+}
+
+
+parameters {
+        string(defaultValue: b, description: '', name: 'AZ')
+    }
+
+stage ("DEPLOY_ACTIONS_BE_Connectors") {
+    
+    script {
+        env.RELEASE_SCOPE = input message: 'do you want to deploy to Deploy_Az?', ok: 'Release',
+        parameters: [string(defaultValue: 'b', description: '', name: 'AZ')]
+    }  
+    echo "${env.RELEASE_SCOPE}"
+}
+    
+
+stage ('Deployment_BE_Connectors_AZ') {
+    build job: 'prod_BE_connectors_Deploy', parameters: [[$class: 'StringParameterValue', name: 'AZ', value: "${env.RELEASE_SCOPE}"]]
+}
+
+parameters {
+        string(defaultValue: b, description: '', name: 'AZ')
+    }
+
+stage ("DEPLOY_ACTIONS_BE_Crud") {
+    
+    script {
+        env.RELEASE_SCOPE = input message: 'do you want to deploy to Deploy_Az?', ok: 'Release',
+        parameters: [string(defaultValue: 'b', description: '', name: 'AZ')]
+    }  
+    echo "${env.RELEASE_SCOPE}"
+}
+    
+
+stage ('Deployment_BE_Crud_AZ') {
+    build job: 'prod_BE_crud_Deploy', parameters: [[$class: 'StringParameterValue', name: 'AZ', value: "${env.RELEASE_SCOPE}"]]
+}
+
+
+parameters {
+        string(defaultValue: b, description: '', name: 'AZ')
+    }
+
+stage ("DEPLOY_ACTIONS_BE_JobSchulder") {
+    
+    script {
+        env.RELEASE_SCOPE = input message: 'do you want to deploy to Deploy_Az?', ok: 'Release',
+        parameters: [string(defaultValue: 'b', description: '', name: 'AZ')]
+    }  
+    echo "${env.RELEASE_SCOPE}"
+}
+    
+
+stage ('Deployment_BE_Jobschulder_AZ') {
+    build job: 'prod_BE_jobsculders_Deploy', parameters: [[$class: 'StringParameterValue', name: 'AZ', value: "${env.RELEASE_SCOPE}"]]
+}
+
+
+stage ('Test_AzB_Environment') {
+    build job: 'Test_AzB_Environment'
+}
+
+
+parameters {
+        string(defaultValue: Approve, description: '', name: 'Action')
+    }
+
+stage ("REQUESTED_ACTIONS") {
+    
+    script {
+        env.RELEASE_SCOPE = input message: 'do you want to deploy to Deploy_AzA?', ok: 'Release',
+        parameters: [string(defaultValue: 'Approve', description: '', name: 'Action')]
+    }  
+    echo "${env.RELEASE_SCOPE}"
+}
+    
+
+stage ('Approve_and_Reject') {
+    build job: 'Rolling_Accept_reject', parameters: [[$class: 'StringParameterValue', name: 'REQUESTED_ACTIONS', value: "${env.RELEASE_SCOPE}"]]
+}
+
+
+
+stage ("ACTIONS") {
+    
+    script {
+        env.READ_SCOPE = input message: 'Do you want to Finalize Deployement?', ok: 'Release',
+        parameters: [string(defaultValue: 'Approve', description: '', name: 'Action')]
+    }  
+    echo "${env.READ_SCOPE}"
+}
+
+stage ('Rolling_Accept_reject') {
+    build job: 'Rolling_Accept_reject', parameters: [[$class: 'StringParameterValue', name: 'ACTIONS', value: "${env.READ_SCOPE}"]]
+}  
+    stage ('Enable_Autoscaling') {
+        build job: 'Enable_Autoscaling'
+    }
+}
+

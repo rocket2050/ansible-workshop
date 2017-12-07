@@ -1,0 +1,13 @@
+node {
+stage ('Code_Stability') {
+    build job: 'Spring3HibernateApp_Code_Stability'
+}
+
+stage ('Code_Quality') {
+    build job: 'Spring3HibernateApp_Code_Quality'
+}
+
+stage ('Code_Coverage') {
+    build job: 'Spring3HibernateApp_Code_Coverage'
+}
+}

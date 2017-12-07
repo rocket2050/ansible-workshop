@@ -6,13 +6,16 @@ build-mysql:
 	docker build -t workshop/ansible:mysql -f mysql/Dockerfile.mysql .
 
 build-tomcat:
-	docker build -t workshop/ansible:tomcat -f Dockerfile.tomcat .
+	docker build -t workshop/ansible:tomcat -f tomcat/Dockerfile.tomcat .
 
+build-jenkins:
+	docker build -t workshop/ansible:jenkins -f Jenkins/Dockerfile .
+	
 build-all:
 	make build
 	make build-mysql
 	make build-tomcat
-
+        make build-jenkins
 
 run-nginx-1:
 	docker rm -f nginx1 || true
@@ -33,13 +36,18 @@ run-webapp-a:
 run-webapp-b:
 	docker rm -f webappb  || true
 	docker run -h webappb --name webappb -itd workshop/ansible:tomcat
+	
+run-jenkins:
+	docker rm -f jenkins  || true
+	docker run -h jenkins --name jenkins -p80:80 -itd workshop/ansible:jenkins	
 
 run-all:
 	make run-nginx-1
 	make run-nginx-2
 	make run-dbserver
 	make run-webapp-a
-	make run-webapp-b       
+	make run-webapp-b
+	make run-jenkins
        
 
 

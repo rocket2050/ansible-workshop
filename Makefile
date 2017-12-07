@@ -8,14 +8,19 @@ build-mysql:
 build-tomcat:
 	docker build -t workshop/ansible:tomcat -f tomcat/Dockerfile.tomcat .
 
-build-jenkins:
-	docker build -t workshop/ansible:jenkins -f jenkins/Dockerfile .
+#build-jenkins:
+#	docker build -t workshop/ansible:jenkins -f jenkins/Dockerfile .
+
+build-nexus:	
+	docker build -t workshop/ansible:nexus -f nexus/Dockerfile.nexus .
+
 	
 build-all:
 	make build
 	make build-mysql
 	make build-tomcat
-	make build-jenkins
+#	make build-jenkins
+	make build-nexus
 
 run-nginx-1:
 	docker rm -f nginx1 || true
@@ -36,10 +41,15 @@ run-webapp-a:
 run-webapp-b:
 	docker rm -f webappb  || true
 	docker run -h webappb --name webappb -itd workshop/ansible:tomcat
+
+run-nexus-server:
+	docker rm -f nexus-server  || true
+	docker run -h nexus-server --name nexus-server -itd workshop/ansible:nexus
+        
 	
-run-cicd:
-	docker rm -f cicd  || true
-	docker run -h cicd --name cicd -p80:80 -itd workshop/ansible:jenkins	
+#run-cicd:
+#	docker rm -f cicd  || true
+#	docker run -h cicd --name cicd -p80:80 -itd workshop/ansible:jenkins	
 
 run-all:
 	make run-nginx-1
@@ -47,8 +57,8 @@ run-all:
 	make run-dbserver
 	make run-webapp-a
 	make run-webapp-b
-	make run-jenkins
-       
+#	make run-jenkins
+	make run-nexus-server
 
 
 start-lab:

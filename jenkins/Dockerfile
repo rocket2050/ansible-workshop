@@ -9,4 +9,3 @@ RUN echo 2.0 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
 RUN mkdir /root/.ssh
 COPY jenkins/seed-job.groovy /usr/share/jenkins/ref/init.groovy.d/
 COPY jenkins/init.groovy     /usr/share/jenkins/ref/init.groovy
-COPY jenkins/jobs/           /usr/share/jenkins/ref/jobs/seed-job/workspace/jobs/
